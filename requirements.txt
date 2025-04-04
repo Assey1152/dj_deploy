@@ -1,4 +1,5 @@
 django
 djangorestframework
+django-filter
 psycopg2-binary
 python-dotenv==1.0.0
