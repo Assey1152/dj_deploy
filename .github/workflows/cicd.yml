@@ -60,7 +60,7 @@ jobs:
     needs: testing
     steps:
       - name: deploy
-        uses: appleboy/ssh-actions@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: ${{ env.DEPLOY_NAME }}
