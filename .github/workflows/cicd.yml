@@ -55,17 +55,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: testing
     env:
-      deploy_NAME: ${{ secrets.deploy_NAME }}
-      deploy_PASSWORD: ${{ secrets.deploy_PASSWORD }}
-      deploy_HOST: ${{ secrets.deploy_HOST }}
+      deploy_NAME: ${{ secrets.DEPLOY_NAME }}
+      deploy_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
+      deploy_HOST: ${{ secrets.DEPLOY_HOST }}
 
     steps:
       - name: deploy
         uses: appleboy/ssh-actions@master
         with:
-          host: ${{ env.deploy_HOST }}
-          username: ${{ env.deploy_NAME }}
-          password: ${{ env.deploy_PASSWORD }}
+          host: ${{ env.DEPLOY_HOST }}
+          username: ${{ env.DEPLOY_NAME }}
+          password: ${{ env.DEPLOY_PASSWORD }}
           script: |
             cd /opt/dj_deploy
             git pull
