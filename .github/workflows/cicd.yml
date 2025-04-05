@@ -40,10 +40,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: linter
-        run: flake8 webpython --exclude migrations --ignore E501, F401, E302, W293, W391, W292
+        run: flake8 . --exclude migrations --ignore E501,F401,E302,W293,W391,W292
 
       - name: tests
-        run: python webpython/manage.py test
+        run: python manage.py test
         env:
           PG_NAME: ${{ secrets.PG_NAME }}
           PG_USER: ${{ secrets.PG_USER }}
