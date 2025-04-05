@@ -53,12 +53,11 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: testing
     env:
-      deploy_NAME: ${{ secrets.DEPLOY_NAME }}
-      deploy_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
-      deploy_HOST: ${{ secrets.DEPLOY_HOST }}
-
+      DEPLOY_NAME: ${{ secrets.DEPLOY_NAME }}
+      DEPLOY_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+    needs: testing
     steps:
       - name: deploy
         uses: appleboy/ssh-actions@master
