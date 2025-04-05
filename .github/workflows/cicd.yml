@@ -1,0 +1,52 @@
+name: Ci/cd action
+
+on:
+  push:
+    branches: [main]
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    env:
+      PG_NAME: ${{ secrets.PG_NAME }}
+      PG_USER: ${{ secrets.PG_USER }}
+      PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+      PG_HOST: ${{ secrets.PG_HOST }}
+      PG_PORT: ${{ secrets.PG_PORT }}
+    services:
+      postgres_main:
+        image: postgres:latest
+        env:
+          POSTGRES_USERS: ${{ env.PG_USER }}
+          POSTGRES_PASSWORD: ${{ env.PG_PASSWORD }}
+          POSTGRES_DB: ${{ env.PG_NAME }}
+        ports:
+          - 5432:5432
+        options:
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: proverka izmenenui
+        uses: actions/checkout@v2
+
+      - name: install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: install pip
+        run: pip install -r requirements.txt
+
+      - name: linter
+        run: flake8 webpython --exclude migrations --ignore E501, F401, E302, W293, W391, W292
+
+      - name: tests
+        run: python webpython/manage.py test
+        env:
+          PG_NAME: ${{ secrets.PG_NAME }}
+          PG_USER: ${{ secrets.PG_USER }}
+          PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+          PG_HOST: ${{ secrets.PG_HOST }}
+          PG_PORT: ${{ secrets.PG_PORT }}
