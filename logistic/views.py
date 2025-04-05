@@ -1,8 +1,13 @@
+from django.http import HttpResponse
 from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import ModelViewSet
 
 from logistic.models import Product, Stock
 from logistic.serializers import ProductSerializer, StockSerializer
+
+
+def index(request):
+    return HttpResponse("Hello change v1")
 
 
 class ProductViewSet(ModelViewSet):
